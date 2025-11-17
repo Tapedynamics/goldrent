@@ -22,7 +22,10 @@
       "Bash(git init:*)",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit - Gold Rent Italia\n\nComplete Next.js website with:\n- Product catalog with 98 vehicles\n- Image mapping system (161 images)\n- AI Chatbot integration with OpenAI\n- Convenzione Leonardo page with 15% discount\n- Video hero section\n- Responsive design with Tailwind CSS\n- SEO optimization with Schema.org\n- WhatsApp integration\n- Contact forms and lead generation\n\nBackend Express server for chatbot API\n\n🤖 Generated with Claude Code\nhttps://claude.com/claude-code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
