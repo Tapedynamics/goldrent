@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 };
 
 // Selezioniamo alcuni prodotti per le offerte speciali e normalizziamo i dati
-const featuredProducts = products.slice(0, 9).map(product => ({
-  ...product,
-  price: {
-    ...product.price,
-    current: product.price.current || product.price.sale || product.price.regular || "0"
-  }
-}));
+const featuredProducts = products.slice(0, 9).map(product => {
+  const current = (product.price as any).current || (product.price as any).sale || (product.price as any).regular || "0";
+  return {
+    ...product,
+    price: {
+      current,
+      option1: product.price.option1,
+      option2: product.price.option2,
+    }
+  };
+});
 
 export default function ConvenzioneLeonardoPage() {
   return (
