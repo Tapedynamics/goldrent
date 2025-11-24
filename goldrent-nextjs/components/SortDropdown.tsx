@@ -10,11 +10,17 @@ export default function SortDropdown() {
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSort = e.target.value;
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
+
+    // Aggiungi il nuovo sort
     params.set('sort', newSort);
+
+    // Mantieni la categoria se presente
     if (category) {
       params.set('category', category);
     }
+
+    // Naviga alla nuova URL
     router.push(`/prodotti?${params.toString()}`);
   };
 

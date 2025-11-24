@@ -1,0 +1,143 @@
+================================================================================
+GOLD RENT ITALIA - STATUS PROGETTO CHATBOT AI
+================================================================================
+Data: 2025-11-21
+Ultimo aggiornamento: Configurazione backend completata
+
+================================================================================
+✅ COMPLETATO
+================================================================================
+
+1. ✅ Backend Express deployato su Render
+   URL: https://goldrent-chatbot.onrender.com
+   Status: ONLINE e funzionante (testato /health endpoint)
+   
+2. ✅ Variabili d'ambiente configurate su Render:
+   - OPENAI_API_KEY: Configurata
+   - PORT: 3005
+   - ALLOWED_ORIGIN: https://goldrent.vercel.app
+   - NODE_ENV: production
+
+3. ✅ File .env.local creato nel frontend
+   Path: goldrent-nextjs/.env.local
+   Contenuto: NEXT_PUBLIC_CHATBOT_API_URL=https://goldrent-chatbot.onrender.com
+
+4. ✅ Frontend deployato su Vercel
+   URL: https://goldrent.vercel.app/
+
+================================================================================
+⏳ IN CORSO / DA COMPLETARE
+================================================================================
+
+STEP 1: Aggiornare ALLOWED_ORIGIN su Render
+--------------------------------------------
+□ Vai su: https://dashboard.render.com
+□ Seleziona: goldrent-chatbot service
+□ Vai su: Environment
+□ Trova variabile: ALLOWED_ORIGIN
+□ Cambia valore da:
+  Vecchio: https://goldrent.vercel.app
+  Nuovo:   https://goldrent.vercel.app,https://www.goldrentitalia.it
+□ Clicca: "Save Changes"
+□ Attendi: Redeploy automatico (~1-2 minuti)
+
+STEP 2: Configurare variabile su Vercel
+----------------------------------------
+□ Vai su: https://vercel.com/dashboard
+□ Seleziona progetto: goldrent
+□ Vai su: Settings → Environment Variables
+□ Clicca: "Add New"
+□ Compila:
+  Key:   NEXT_PUBLIC_CHATBOT_API_URL
+  Value: https://goldrent-chatbot.onrender.com
+□ Seleziona: Production, Preview, Development (tutti e 3)
+□ Clicca: "Save"
+
+STEP 3: Redeploy frontend su Vercel
+------------------------------------
+□ Vai su: Deployments
+□ Clicca sui 3 puntini dell'ultimo deploy
+□ Clicca: "Redeploy"
+□ Attendi: ~1-2 minuti
+
+STEP 4: Test finale
+--------------------
+□ Vai su: https://goldrent.vercel.app/
+□ Apri il widget chatbot (pulsante in basso a destra)
+□ Invia un messaggio di prova
+□ Verifica che il chatbot risponda
+
+================================================================================
+🔧 CONFIGURAZIONE TECNICA
+================================================================================
+
+Backend (Express + OpenAI):
+---------------------------
+- Repository: https://github.com/Tapedynamics/goldrent
+- Folder: webchatbot/
+- Deploy: Render (Free tier)
+- Endpoints:
+  * GET  /health         → Health check
+  * POST /api/chat       → Chatbot conversation
+  * POST /api/leads      → Lead form submission
+
+Frontend (Next.js 16):
+----------------------
+- Repository: https://github.com/Tapedynamics/goldrent
+- Folder: goldrent-nextjs/
+- Deploy: Vercel
+- Chatbot widget: components/ChatbotWidget.tsx
+- Integrato in: app/layout.tsx (linea 160)
+
+Variabili d'ambiente necessarie:
+---------------------------------
+Backend (.env su Render):
+  OPENAI_API_KEY=sk-proj-...
+  PORT=3005
+  ALLOWED_ORIGIN=https://goldrent.vercel.app,https://www.goldrentitalia.it
+  NODE_ENV=production
+
+Frontend (.env.local locale + Vercel):
+  NEXT_PUBLIC_CHATBOT_API_URL=https://goldrent-chatbot.onrender.com
+
+================================================================================
+⚠️ NOTE IMPORTANTI
+================================================================================
+
+1. Il backend Render (free tier) va in "sleep" dopo 15 minuti di inattività
+   → Il primo messaggio dopo inattività impiega ~30 secondi
+   → I messaggi successivi sono veloci
+
+2. La chiave OpenAI è configurata e attiva:
+   sk-proj-36sasrfChwcpuy2ITXWCBLij0VBPYH6-dGOjpGiBpZNV4HXLHds...
+
+3. Il file .env.local NON viene pushato su GitHub (è in .gitignore)
+   → La configurazione production deve essere fatta su Vercel
+
+4. CORS è configurato per accettare richieste solo da domini autorizzati
+   → Verifica che ALLOWED_ORIGIN includa tutti i domini usati
+
+================================================================================
+📞 CONTATTI E RIFERIMENTI
+================================================================================
+
+Repository GitHub: https://github.com/Tapedynamics/goldrent
+Backend Render: https://goldrent-chatbot.onrender.com
+Frontend Vercel: https://goldrent.vercel.app
+Telefono Gold Rent: +39 329 00 92 394
+Email: info@goldrentitalia.it
+
+================================================================================
+🚀 PROSSIMI PASSI (dopo completamento chatbot)
+================================================================================
+
+□ Ottimizzazione SEO chatbot
+□ Analytics tracking (Google Analytics)
+□ Monitoraggio lead generation
+□ Test A/B messaggi chatbot
+□ Integrazione CRM per lead
+□ Dashboard admin per visualizzare lead
+
+================================================================================
+FINE STATUS
+================================================================================

@@ -31,19 +31,24 @@ export default function ProdottiPage({
   const category = searchParams.category;
   const sortBy = searchParams.sort || 'recent';
 
-  // IDs dei prodotti che sono solo volantini (da escludere dalla pagina prodotti)
-  const flyerOnlyProductIds = ['471']; // 500X DIESEL
+  // IDs dei prodotti presenti nella Convenzione Leonardo (da escludere dalla pagina prodotti)
+  // Questi prodotti sono visibili solo nella pagina /convenzione-leonardo
+  const convenzioneLeonardoProductIds = [
+    '67', '82', '168', '174', '187', '203', '213', '221', '227', '231',
+    '253', '255', '336', '338', '343', '369', '387', '433', '455', '460',
+    '469', '471', '517', '544'
+  ];
 
-  // Filtra prodotti per categoria e rimuovi volantini
+  // Filtra prodotti per categoria e rimuovi quelli della Convenzione Leonardo
   let filteredProducts = category
     ? productsData.filter((product: any) =>
-        !flyerOnlyProductIds.includes(product.id) &&
+        !convenzioneLeonardoProductIds.includes(product.id) &&
         product.categories.some(
           (cat: string) =>
             cat.toLowerCase().replace(/\s+/g, "-") === category.toLowerCase()
         )
       )
-    : productsData.filter((product: any) => !flyerOnlyProductIds.includes(product.id));
+    : productsData.filter((product: any) => !convenzioneLeonardoProductIds.includes(product.id));
 
   // Ordina prodotti in base al parametro sort
   filteredProducts = [...filteredProducts].sort((a: any, b: any) => {
