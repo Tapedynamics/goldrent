@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import FlyerGallery from "@/components/FlyerGallery";
+import PinProtection from "@/components/PinProtection";
 
 export const metadata: Metadata = {
   title: "Convenzione Leonardo - Offerte Esclusive | Gold Rent Italia",
@@ -164,7 +165,11 @@ const convenzioneFlyersData = [
 
 export default function ConvenzioneLeonardoPage() {
   return (
-    <>
+    <PinProtection
+      correctPin="2016"
+      title="Convenzione Leonardo"
+      description="Inserisci il PIN per accedere alle offerte esclusive"
+    >
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-accent-red via-accent-magenta to-accent-blue text-white py-24 px-4 overflow-hidden">
         {/* Pattern decorativo */}
@@ -404,6 +409,6 @@ export default function ConvenzioneLeonardoPage() {
           })
         }}
       />
-    </>
+    </PinProtection>
   );
 }
