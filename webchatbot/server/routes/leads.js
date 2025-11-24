@@ -38,7 +38,7 @@ async function writeLeads(leads) {
 // POST /api/leads - Salva un nuovo lead
 router.post('/', async (req, res) => {
   try {
-    const { name, email, phone, interest, message, conversationId } = req.body;
+    const { name, email, phone, vatNumber, interest, message, conversationId } = req.body;
 
     // Validazione
     if (!name || !email) {
@@ -57,6 +57,7 @@ router.post('/', async (req, res) => {
       name: name.trim(),
       email: email.trim().toLowerCase(),
       phone: phone ? phone.trim() : null,
+      vatNumber: vatNumber ? vatNumber.trim() : null,
       interest: interest || 'Non specificato',
       message: message || '',
       conversationId: conversationId || null,
@@ -133,12 +134,13 @@ router.get('/export', async (req, res) => {
     const leads = await readLeads();
 
     // Crea CSV
-    const headers = ['ID', 'Nome', 'Email', 'Telefono', 'Interesse', 'Messaggio', 'Data'];
+    const headers = ['ID', 'Nome', 'Email', 'Telefono', 'Partita IVA', 'Interesse', 'Messaggio', 'Data'];
     const rows = leads.map(l => [
       l.id,
       l.name,
       l.email,
       l.phone || '',
+      l.vatNumber || '',
       l.interest,
       l.message.replace(/"/g, '""'), // Escape virgolette
       l.createdAt

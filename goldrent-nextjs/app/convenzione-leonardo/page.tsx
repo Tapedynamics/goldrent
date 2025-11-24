@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import ProductCard from "@/components/ProductCard";
-import products from "@/data/products.json";
+import FlyerGallery from "@/components/FlyerGallery";
 
 export const metadata: Metadata = {
   title: "Convenzione Leonardo - Offerte Esclusive | Gold Rent Italia",
@@ -15,18 +14,153 @@ export const metadata: Metadata = {
   },
 };
 
-// Selezioniamo alcuni prodotti per le offerte speciali e normalizziamo i dati
-const featuredProducts = products.slice(0, 9).map(product => {
-  const current = (product.price as any).current || (product.price as any).sale || (product.price as any).regular || "0";
-  return {
-    ...product,
-    price: {
-      current,
-      option1: product.price.option1,
-      option2: product.price.option2,
-    }
-  };
-});
+// Volantini della Convenzione Leonardo
+const convenzioneFlyersData = [
+  {
+    id: '1',
+    title: 'Fiat 500X Diesel',
+    imagePath: '/images/convenzione/500X.DIESEL.webp',
+    description: 'Offerta speciale Convenzione Leonardo',
+  },
+  {
+    id: '2',
+    title: 'Jeep Avenger',
+    imagePath: '/images/convenzione/AVENGER.webp',
+    description: 'Sconto 15% sul canone mensile',
+  },
+  {
+    id: '3',
+    title: 'Citroën C5 Aircross',
+    imagePath: '/images/convenzione/c5aircross.jpeg',
+    description: 'Offerta esclusiva convenzionati',
+  },
+  {
+    id: '4',
+    title: 'Renault Clio',
+    imagePath: '/images/convenzione/clio (1).webp',
+    description: 'Zero anticipo - Convenzione Leonardo',
+  },
+  {
+    id: '5',
+    title: 'Fiat 500X Convenzione',
+    imagePath: '/images/convenzione/CONVENZIONE.500X.webp',
+    description: 'Prezzo riservato ai convenzionati',
+  },
+  {
+    id: '6',
+    title: 'Opel Crossland Convenzione',
+    imagePath: '/images/convenzione/CROSSLAND.CONVENZIONE.webp',
+    description: 'Offerta esclusiva -15%',
+  },
+  {
+    id: '7',
+    title: 'Ford Focus SW',
+    imagePath: '/images/convenzione/ford.focus_.sw_.jpeg',
+    description: 'Station Wagon con vantaggi Convenzione',
+  },
+  {
+    id: '8',
+    title: 'Maserati Grecale',
+    imagePath: '/images/convenzione/grecale.webp',
+    description: 'Premium con sconto Leonardo',
+  },
+  {
+    id: '9',
+    title: 'Kia XCeed',
+    imagePath: '/images/convenzione/KIA.webp',
+    description: 'Crossover in offerta speciale',
+  },
+  {
+    id: '10',
+    title: 'Convenzione Leonardo',
+    imagePath: '/images/convenzione/LEONARDO.webp',
+    description: 'Tutte le offerte dedicate',
+  },
+  {
+    id: '11',
+    title: 'Nissan Juke',
+    imagePath: '/images/convenzione/nissan.juke_.webp',
+    description: 'Compatto con stile - Sconto 15%',
+  },
+  {
+    id: '12',
+    title: 'Peugeot 2008',
+    imagePath: '/images/convenzione/PEUGEOT2008.webp',
+    description: 'SUV urbano in promozione',
+  },
+  {
+    id: '13',
+    title: 'Renault Austral',
+    imagePath: '/images/convenzione/RENAULT.AUSTRAL.webp',
+    description: 'Nuovo modello con vantaggi esclusivi',
+  },
+  {
+    id: '14',
+    title: 'Fiat Scudo Van',
+    imagePath: '/images/convenzione/SCUDO.VAN_.webp',
+    description: 'Veicolo commerciale Convenzione',
+  },
+  {
+    id: '15',
+    title: 'Fiat Scudo',
+    imagePath: '/images/convenzione/scudo1.webp',
+    description: 'Van professionale in offerta',
+  },
+  {
+    id: '16',
+    title: 'Škoda Kamiq',
+    imagePath: '/images/convenzione/SKODA.KAMIQ_.webp',
+    description: 'SUV compatto con sconto',
+  },
+  {
+    id: '17',
+    title: 'Škoda Octavia Wagon',
+    imagePath: '/images/convenzione/skoda.octavia.wagon_.webp',
+    description: 'Familiare spaziosa - Offerta Leonardo',
+  },
+  {
+    id: '18',
+    title: 'Tesla Model 3',
+    imagePath: '/images/convenzione/tesla.model_.3.webp',
+    description: 'Elettrica premium in convenzione',
+  },
+  {
+    id: '19',
+    title: 'Toyota Aygo X',
+    imagePath: '/images/convenzione/toyota.webp',
+    description: 'City car con vantaggi esclusivi',
+  },
+  {
+    id: '20',
+    title: 'Hyundai Tucson',
+    imagePath: '/images/convenzione/TUCSON.webp',
+    description: 'SUV familiare - Sconto 15%',
+  },
+  {
+    id: '21',
+    title: 'Auto Usate',
+    imagePath: '/images/convenzione/usate.webp',
+    description: 'Selezione usato garantito Convenzione',
+  },
+  {
+    id: '22',
+    title: 'BMW X3',
+    imagePath: '/images/convenzione/X3.jpeg',
+    description: 'Premium SUV in offerta',
+  },
+  {
+    id: '23',
+    title: 'BMW X3',
+    imagePath: '/images/convenzione/X3.webp',
+    description: 'SUV di lusso con vantaggi',
+  },
+  {
+    id: '24',
+    title: 'Lancia Ypsilon',
+    imagePath: '/images/convenzione/ypsilon.webp',
+    description: 'Eleganza italiana - Convenzione Leonardo',
+  },
+];
 
 export default function ConvenzioneLeonardoPage() {
   return (
@@ -133,41 +267,29 @@ export default function ConvenzioneLeonardoPage() {
         </div>
       </section>
 
-      {/* Offerte Speciali */}
+      {/* Volantini Offerte Speciali */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 text-gray-900">
-              Auto in Offerta Speciale
+              Offerte Esclusive Convenzione Leonardo
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Una selezione di veicoli disponibili con i vantaggi della Convenzione Leonardo. Prezzi già scontati del 15%.
+              Scopri tutti i volantini con le offerte speciali riservate ai convenzionati Leonardo. Prezzi già scontati del 15%.
+            </p>
+            <p className="text-sm text-gray-500 mt-4">
+              Clicca su un'immagine per ingrandirla e scaricarla
             </p>
           </div>
 
-          <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                title={product.title}
-                slug={product.slug}
-                categories={product.categories}
-                price={product.price}
-                thumbnail_id={product.thumbnail_id}
-                displacement={product.displacement}
-                horsepower={product.horsepower}
-                isConvenzione={true}
-              />
-            ))}
-          </div>
+          <FlyerGallery flyers={convenzioneFlyersData} />
 
           <div className="text-center mt-12">
             <Link
               href="/prodotti"
               className="inline-flex items-center gap-2 px-8 py-4 bg-accent-cyan text-white rounded-full font-bold text-lg hover:bg-accent-teal hover:scale-105 transition-all duration-300 shadow-xl"
             >
-              Vedi Tutti i Veicoli
+              Vedi Tutti i Veicoli Disponibili
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>

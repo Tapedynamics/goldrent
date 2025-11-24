@@ -21,6 +21,7 @@ interface LeadFormData {
   name: string;
   email: string;
   phone: string;
+  vatNumber: string;
   interest: string;
 }
 
@@ -37,6 +38,7 @@ export default function ChatbotWidget() {
     name: "",
     email: "",
     phone: "",
+    vatNumber: "",
     interest: "",
   });
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
@@ -163,6 +165,7 @@ export default function ChatbotWidget() {
           name: leadFormData.name,
           email: leadFormData.email,
           phone: leadFormData.phone,
+          vatNumber: leadFormData.vatNumber,
           interest: leadFormData.interest,
           conversationId: conversationId,
         }),
@@ -185,7 +188,7 @@ export default function ChatbotWidget() {
 
       setMessages((prev) => [...prev, confirmMessage]);
       setShowLeadForm(false);
-      setLeadFormData({ name: "", email: "", phone: "", interest: "" });
+      setLeadFormData({ name: "", email: "", phone: "", vatNumber: "", interest: "" });
     } catch (error) {
       console.error("Errore invio lead:", error);
       alert("Si è verificato un errore. Riprova o contattaci direttamente.");
@@ -352,6 +355,18 @@ export default function ChatbotWidget() {
                       setLeadFormData({
                         ...leadFormData,
                         phone: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-cyan focus:border-transparent"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Partita IVA (opzionale)"
+                    value={leadFormData.vatNumber}
+                    onChange={(e) =>
+                      setLeadFormData({
+                        ...leadFormData,
+                        vatNumber: e.target.value,
                       })
                     }
                     className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-cyan focus:border-transparent"

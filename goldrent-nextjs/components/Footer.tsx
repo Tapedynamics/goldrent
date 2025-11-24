@@ -115,8 +115,7 @@ export default function Footer() {
         <div className="border-t border-gray-700 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} Gold Rent Italia - Tutti i diritti
-              riservati
+              © {new Date().getFullYear()} Gold Rent Italia Giglio888 - Partita IVA 10290510964 - Tutti i diritti riservati
             </p>
             <div className="flex space-x-4 text-sm">
               <Link

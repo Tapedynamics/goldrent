@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProductCard from "@/components/ProductCard";
+import SortDropdown from "@/components/SortDropdown";
 import productsData from "@/data/products.json";
 
 export const metadata: Metadata = {
@@ -24,19 +25,54 @@ export const metadata: Metadata = {
 export default function ProdottiPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: { category?: string; sort?: string };
 }) {
   const category = searchParams.category;
+  const sortBy = searchParams.sort || 'recent';
 
-  // Filtra prodotti per categoria se specificata
-  const filteredProducts = category
+  // IDs dei prodotti che sono solo volantini (da escludere dalla pagina prodotti)
+  const flyerOnlyProductIds = ['471']; // 500X DIESEL
+
+  // Filtra prodotti per categoria e rimuovi volantini
+  let filteredProducts = category
     ? productsData.filter((product: any) =>
+        !flyerOnlyProductIds.includes(product.id) &&
         product.categories.some(
           (cat: string) =>
             cat.toLowerCase().replace(/\s+/g, "-") === category.toLowerCase()
         )
       )
-    : productsData;
+    : productsData.filter((product: any) => !flyerOnlyProductIds.includes(product.id));
+
+  // Ordina prodotti in base al parametro sort
+  filteredProducts = [...filteredProducts].sort((a: any, b: any) => {
+    switch (sortBy) {
+      case 'price-asc':
+        // Ordina per prezzo crescente
+        const priceA = parseFloat(a.price?.regular) || parseFloat(a.price?.sale) || 0;
+        const priceB = parseFloat(b.price?.regular) || parseFloat(b.price?.sale) || 0;
+        return priceA - priceB;
+
+      case 'price-desc':
+        // Ordina per prezzo decrescente
+        const priceA2 = parseFloat(a.price?.regular) || parseFloat(a.price?.sale) || 0;
+        const priceB2 = parseFloat(b.price?.regular) || parseFloat(b.price?.sale) || 0;
+        return priceB2 - priceA2;
+
+      case 'name-asc':
+        // Ordina alfabeticamente A-Z
+        return a.title.localeCompare(b.title);
+
+      case 'name-desc':
+        // Ordina alfabeticamente Z-A
+        return b.title.localeCompare(a.title);
+
+      case 'recent':
+      default:
+        // Ordina per ID decrescente (più recenti prima)
+        return b.id - a.id;
+    }
+  });
 
   const categoryTitles: { [key: string]: string } = {
     "lungo-termine": "Noleggio Lungo Termine",
@@ -65,60 +101,66 @@ export default function ProdottiPage({
         </div>
       </section>
 
-      {/* Filtri Categoria */}
+      {/* Filtri Categoria e Ordinamento */}
       <section className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="/prodotti"
-              className={`px-4 py-2 rounded-full transition-all ${
-                !category
-                  ? "bg-accent-cyan text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              Tutti ({productsData.length})
-            </a>
-            <a
-              href="/prodotti?category=lungo-termine"
-              className={`px-4 py-2 rounded-full transition-all ${
-                category === "lungo-termine"
-                  ? "bg-accent-cyan text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              Lungo Termine
-            </a>
-            <a
-              href="/prodotti?category=pronta-consegna"
-              className={`px-4 py-2 rounded-full transition-all ${
-                category === "pronta-consegna"
-                  ? "bg-accent-cyan text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              Pronta Consegna
-            </a>
-            <a
-              href="/prodotti?category=no-crif"
-              className={`px-4 py-2 rounded-full transition-all ${
-                category === "no-crif"
-                  ? "bg-accent-cyan text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              No CRIF
-            </a>
-            <a
-              href="/prodotti?category=miles"
-              className={`px-4 py-2 rounded-full transition-all ${
-                category === "miles"
-                  ? "bg-accent-cyan text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              Miles
-            </a>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            {/* Filtri Categoria */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/prodotti"
+                className={`px-4 py-2 rounded-full transition-all ${
+                  !category
+                    ? "bg-accent-cyan text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Tutti ({productsData.length})
+              </a>
+              <a
+                href={`/prodotti?sort=${sortBy}&category=lungo-termine`}
+                className={`px-4 py-2 rounded-full transition-all ${
+                  category === "lungo-termine"
+                    ? "bg-accent-cyan text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Lungo Termine
+              </a>
+              <a
+                href={`/prodotti?sort=${sortBy}&category=pronta-consegna`}
+                className={`px-4 py-2 rounded-full transition-all ${
+                  category === "pronta-consegna"
+                    ? "bg-accent-cyan text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Pronta Consegna
+              </a>
+              <a
+                href={`/prodotti?sort=${sortBy}&category=no-crif`}
+                className={`px-4 py-2 rounded-full transition-all ${
+                  category === "no-crif"
+                    ? "bg-accent-cyan text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                No CRIF
+              </a>
+              <a
+                href={`/prodotti?sort=${sortBy}&category=miles`}
+                className={`px-4 py-2 rounded-full transition-all ${
+                  category === "miles"
+                    ? "bg-accent-cyan text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                Miles
+              </a>
+            </div>
+
+            {/* Dropdown Ordinamento */}
+            <SortDropdown />
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import GoogleReviews from "@/components/GoogleReviews";
 
 export const metadata: Metadata = {
   title: "Home - Noleggio Lungo Termine Gold Rent Italia",
@@ -101,6 +102,19 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Google Reviews Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-4 text-gray-900">
+            Cosa Dicono i Nostri Clienti
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            La soddisfazione dei nostri clienti è la nostra priorità. Leggi le recensioni autentiche di chi ha già scelto Gold Rent Italia.
+          </p>
+          <GoogleReviews maxReviews={10} autoPlay={true} autoPlayInterval={6000} />
         </div>
       </section>
 
